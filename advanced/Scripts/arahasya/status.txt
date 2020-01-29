@@ -1,0 +1,2 @@
+Status: Connected Current server: sg220.nordvpn.com Country: Singapore City: Singapore Your new IP: 82.102.25.243 Current technology: NordLynx Transfer: 192.57 KiB received, 81.06 KiB sent Uptime: 56 minutes 5 seconds
+Connected sg220.nordvpn.com Singapore Singapore 192.57 KiB received, 81.06 KiB sent 56 minutes 5

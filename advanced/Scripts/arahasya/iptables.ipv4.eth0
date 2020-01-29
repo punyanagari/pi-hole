@@ -1,0 +1,34 @@
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A POSTROUTING -o eth0 -j MASQUERADE
+COMMIT
+
+*filter
+:INPUT DROP [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT DROP [0:0]
+-A INPUT -i eth0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -s 127.0.0.0/8 -i lo -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -s 192.168.0.0/24 -i eth0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -s 192.168.43.0/24 -i lo -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -s 192.168.0.0/24 -i eth0 -p udp -m udp --dport 22 -j ACCEPT
+-A INPUT -s 192.168.0.0/24 -i eth0 -p tcp -m tcp --dport 22 -j ACCEPT
+-A INPUT -s 192.168.0.0/24 -i eth0 -p udp -m udp --dport 53 -j ACCEPT
+-A INPUT -s 192.168.0.0/24 -i eth0 -p tcp -m tcp --dport 53 -j ACCEPT
+-A INPUT -s 192.168.0.0/24 -i eth0 -p udp -m udp --dport 67:68 -j ACCEPT
+-A INPUT -s 192.168.0.0/24 -i eth0 -p tcp -m tcp --dport 67:68 -j ACCEPT
+-A INPUT -s 192.168.0.0/24 -i eth0 -p udp -m udp --dport 80 -j ACCEPT
+-A INPUT -s 192.168.0.0/24 -i eth0 -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -s 192.168.0.0/24 -i eth0 -p udp -m udp --dport 4343 -j ACCEPT
+-A INPUT -s 192.168.0.0/24 -i eth0 -p tcp -m tcp --dport 4343 -j ACCEPT
+-A INPUT -s 192.168.43.0/24 -i eth0 -m conntrack --ctstate NEW,RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o eth0 -j ACCEPT
+-A OUTPUT -d 192.168.0.0/24 -o eth0 -j ACCEPT
+-A OUTPUT -d 192.168.43.0/24 -o lo -j ACCEPT
+-A OUTPUT -d 192.168.43.0/24 -o eth0 -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+COMMIT
